@@ -1,7 +1,7 @@
 from django.http import HttpResponse, HttpRequest, HttpResponseNotFound, \
     Http404, HttpResponseRedirect, HttpResponsePermanentRedirect
 from django.shortcuts import render, redirect, reverse, get_object_or_404
-from .models import Dune, Category
+from .models import Dune, Category, TagPost
 
 menu = [
     {'title': 'О сайте', 'url_name': 'about'},
@@ -68,6 +68,19 @@ def show_category(request, cat_slug):
     return render(request, 'dune/index.html', context=data)
 
 
+def show_tag_postlist(request, tag_slug):
+    tag = get_object_or_404(TagPost, slug=tag_slug)   # tag - объект класса(модели) TagPost
+    posts = tag.tags.filter(is_published=Dune.Status.PUBLISHED)
+
+    data = {
+        'title': f"Тег: {tag.tag}",
+        'menu': menu,
+        'posts': posts,
+        'cat_selected': None
+    }
+
+    return render(request, 'dune/index.html', context=data)
+
+
 def page_not_found(request, exception):
     return HttpResponseNotFound('<h1>Страница не найдена</h1>')
-

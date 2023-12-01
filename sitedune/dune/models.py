@@ -20,8 +20,8 @@ class Dune(models.Model):
     is_published = models.BooleanField(choices=Status.choices, default=Status.DRAFT)
     cat = models.ForeignKey(to='Category', on_delete=models.PROTECT, related_name='posts')   # post - менеджер
     tags = models.ManyToManyField(to='TagPost', blank=True, related_name='tags')
-    planet = models.OneToOneField(to='Planet', on_delete=models.SET_NULL, null=True,
-                                  blank=True, related_name='character')
+    planet = models.ForeignKey(to='Planet', on_delete=models.PROTECT, null=True,
+                                  blank=True, related_name='characters')
 
     objects = models.Manager()
     published = PublishedManager()

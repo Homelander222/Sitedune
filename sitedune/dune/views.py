@@ -50,7 +50,7 @@ def show_post(request, post_slug):
         'title': post.title,
         'menu': menu,
         'post': post,
-        'cat_selected': 1,
+        'cat_selected': post.cat_id,
     }
     return render(request, 'dune/post.html', data)
 

@@ -12,7 +12,7 @@ menu = [
 
 
 def index(request):  # HttpRequest
-    posts = Dune.published.all()
+    posts = Dune.published.all().select_related('cat')
 
     data = {
         'title': 'Главная страница',
@@ -57,7 +57,7 @@ def show_post(request, post_slug):
 
 def show_category(request, cat_slug):
     category = get_object_or_404(Category, slug=cat_slug)
-    posts = Dune.published.filter(cat_id=category.pk)
+    posts = Dune.published.filter(cat_id=category.pk).select_related('cat')
 
     data = {
         'title': f'Рубрика {category.name}',
@@ -70,7 +70,7 @@ def show_category(request, cat_slug):
 
 def show_tag_postlist(request, tag_slug):
     tag = get_object_or_404(TagPost, slug=tag_slug)   # tag - объект класса(модели) TagPost
-    posts = tag.tags.filter(is_published=Dune.Status.PUBLISHED)
+    posts = tag.tags.filter(is_published=Dune.Status.PUBLISHED).select_related('cat')
 
     data = {
         'title': f"Тег: {tag.tag}",

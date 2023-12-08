@@ -1,8 +1,5 @@
-from django.urls import path, register_converter
+from django.urls import path
 from . import views
-from . import convertors
-
-register_converter(convertors.FourDigitYearConverter, "year4")
 
 urlpatterns = [
     path('', views.index, name='home'),   # http://127.0.0.1:8000/

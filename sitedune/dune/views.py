@@ -1,6 +1,5 @@
-from django.http import HttpResponse, HttpRequest, HttpResponseNotFound, \
-    Http404, HttpResponseRedirect, HttpResponsePermanentRedirect
-from django.shortcuts import render, redirect, reverse, get_object_or_404
+from django.http import HttpResponse, HttpResponseNotFound
+from django.shortcuts import render, get_object_or_404
 from .models import Dune, Category, TagPost
 
 menu = [

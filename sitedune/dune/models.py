@@ -66,6 +66,7 @@ class TagPost(models.Model):
 class Planet(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
+    count_satellites = models.IntegerField(blank=True, default=0)
 
     def __str__(self):
         return self.name

@@ -53,6 +53,8 @@ class Category(models.Model):
 class TagPost(models.Model):
     tag = models.CharField(max_length=100, db_index=True)
     slug = models.SlugField(max_length=255, unique=True, db_index=True)
+    year = models.IntegerField(blank=True, null=True)
+    author = models.CharField(max_length=100, blank=True)
 
     def __str__(self):
         return self.tag
@@ -67,3 +69,4 @@ class Planet(models.Model):
 
     def __str__(self):
         return self.name
+

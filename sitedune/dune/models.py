@@ -30,6 +30,8 @@ class Dune(models.Model):
         return self.title
 
     class Meta:
+        verbose_name = 'Персонажи дюны'
+        verbose_name_plural = 'Персонажи дюны'
         ordering = ['-time_create']
         indexes = [
             models.Index(fields=['-time_create'])

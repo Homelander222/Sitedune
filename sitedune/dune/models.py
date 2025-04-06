@@ -12,16 +12,17 @@ class Dune(models.Model):
         DRAFT = 0, 'Черновик'
         PUBLISHED = 1, 'Опубликовано'
 
-    title = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255, unique=True, db_index=True)
-    content = models.TextField(blank=True)  # Необязательное поле - blank
-    time_create = models.DateTimeField(auto_now_add=True)
-    time_update = models.DateTimeField(auto_now=True)
-    is_published = models.BooleanField(choices=Status.choices, default=Status.DRAFT)
-    cat = models.ForeignKey(to='Category', on_delete=models.PROTECT, related_name='posts')   # post - менеджер
-    tags = models.ManyToManyField(to='TagPost', blank=True, related_name='tags')
+    title = models.CharField(max_length=255, verbose_name='Заголовок')
+    slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='Слаг')
+    content = models.TextField(blank=True, verbose_name='Текст статьи')  # Необязательное поле - blank
+    time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
+    time_update = models.DateTimeField(auto_now=True, verbose_name='Время обновления')
+    is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
+                                       default=Status.DRAFT, verbose_name='Статус')
+    cat = models.ForeignKey(to='Category', on_delete=models.PROTECT, related_name='posts', verbose_name='Категория')   # post - менеджер
+    tags = models.ManyToManyField(to='TagPost', blank=True, related_name='tags', verbose_name='Тэг')
     planet = models.ForeignKey(to='Planet', on_delete=models.PROTECT, null=True,
-                                  blank=True, related_name='characters')
+                                  blank=True, related_name='characters', verbose_name='Планета')
 
     objects = models.Manager()
     published = PublishedManager()
@@ -42,8 +43,12 @@ class Dune(models.Model):
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=100, db_index=True)
-    slug = models.SlugField(unique=True, db_index=True)
+    name = models.CharField(max_length=100, db_index=True, verbose_name='Название')
+    slug = models.SlugField(unique=True, db_index=True, verbose_name='Слаг')
+
+    class Meta:
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
 
     def __str__(self):
         return self.name
@@ -53,10 +58,10 @@ class Category(models.Model):
 
 
 class TagPost(models.Model):
-    tag = models.CharField(max_length=100, db_index=True)
-    slug = models.SlugField(max_length=255, unique=True, db_index=True)
-    year = models.IntegerField(blank=True, null=True)
-    author = models.CharField(max_length=100, blank=True)
+    tag = models.CharField(max_length=100, db_index=True, verbose_name='Тэг')
+    slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='Слаг')
+    year = models.IntegerField(blank=True, null=True, verbose_name='Год')
+    author = models.CharField(max_length=100, blank=True, verbose_name='Автор')
 
     def __str__(self):
         return self.tag

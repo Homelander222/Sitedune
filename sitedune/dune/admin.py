@@ -22,9 +22,11 @@ class PlanetFilter(admin.SimpleListFilter):
 
 @admin.register(Dune)
 class DuneAdmin(admin.ModelAdmin):
-    fields = ['title', 'content', 'slug', 'cat', 'planet']
+    fields = ['title', 'content', 'slug', 'cat', 'planet', 'tags']
     # exclude = ['tags']
-    readonly_fields = ['slug']
+    # readonly_fields = ['slug']
+    prepopulated_fields = {'slug': ('title', )}
+    filter_horizontal = ['tags']
     list_display = ('title', 'time_create', 'is_published', 'cat', 'brief_info')
     list_display_links = ('title',)
     ordering = ('title',)

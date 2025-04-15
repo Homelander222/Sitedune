@@ -31,7 +31,9 @@ def about(request):
 
 
 def addpage(request):
-    return HttpResponse("Добавление статьи")
+    data = {'menu': menu, 'title': 'Добавление статьи'}
+
+    return render(request, 'dune/addpage.html', data)
 
 
 def contact(request):

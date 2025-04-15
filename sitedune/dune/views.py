@@ -1,6 +1,7 @@
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render, get_object_or_404
 from .models import Dune, Category, TagPost
+from .forms import AddPostForm
 
 menu = [
     {'title': 'О сайте', 'url_name': 'about'},
@@ -31,7 +32,17 @@ def about(request):
 
 
 def addpage(request):
-    data = {'menu': menu, 'title': 'Добавление статьи'}
+    if request.method == 'POST':
+        form = AddPostForm(request.POST)
+        if form.is_valid():
+            print(form.cleaned_data)
+    else:
+        form = AddPostForm()
+
+    data = {'menu': menu,
+            'title': 'Добавление статьи',
+            'form': form
+            }
 
     return render(request, 'dune/addpage.html', data)
 

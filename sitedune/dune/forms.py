@@ -3,6 +3,7 @@ from django.core.exceptions import ValidationError
 from django.utils.deconstruct import deconstructible
 from .models import Category, Planet, Dune
 from django.core.validators import MinLengthValidator, MaxLengthValidator
+import PIL
 
 
 # Для многократного использования на разных формах
@@ -37,3 +38,7 @@ class AddPostForm(forms.ModelForm):
         title = self.cleaned_data['title']
         if len(title) > 50:
             raise ValidationError("Длина заголовка превышает 50 символов")
+
+
+class UploadFileForm(forms.Form):
+    file = forms.ImageField(label='Файл')

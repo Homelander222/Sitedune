@@ -1,9 +1,7 @@
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Dune, Category, TagPost
+from .models import Dune, Category, TagPost, UploadFiles
 from .forms import AddPostForm, UploadFileForm
-from uuid import uuid4
-from os import path
 
 
 menu = [
@@ -26,18 +24,12 @@ def index(request):  # HttpRequest
     return render(request, 'dune/index.html', context=data)
 
 
-def handle_uploaded_file(f):
-    name, suff = path.splitext(f.name)
-    with open(f"uploads/{name}_{uuid4()}{suff}", "wb+") as destination:
-        for chunk in f.chunks():
-            destination.write(chunk)
-
-
 def about(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
-            handle_uploaded_file(form.cleaned_data['file'])
+            fp = UploadFiles(file=form.cleaned_data['file'])
+            fp.save()
     else:
         form = UploadFileForm()
     return render(request, 'dune/about.html', {'title': 'О сайте', 'menu': menu, 'form': form})

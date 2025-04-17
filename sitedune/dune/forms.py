@@ -27,7 +27,7 @@ class AddPostForm(forms.ModelForm):
 
     class Meta:
         model = Dune
-        fields = ['title', 'slug', 'content', 'is_published', 'cat', 'tags', 'planet']
+        fields = ['title', 'slug', 'content', 'photo', 'is_published', 'cat', 'planet', 'tags']
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-input'}),
             'content': forms.Textarea(attrs={'cols': 50, 'rows': 5})
@@ -36,6 +36,8 @@ class AddPostForm(forms.ModelForm):
 
     def clean_title(self):
         title = self.cleaned_data['title']
+        print(title)
+        print(len(title))
         if len(title) > 50:
             raise ValidationError("Длина заголовка превышает 50 символов")
 

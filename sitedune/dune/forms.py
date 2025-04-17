@@ -36,10 +36,11 @@ class AddPostForm(forms.ModelForm):
 
     def clean_title(self):
         title = self.cleaned_data['title']
-        print(title)
-        print(len(title))
         if len(title) > 50:
             raise ValidationError("Длина заголовка превышает 50 символов")
+
+        return title
+
 
 
 class UploadFileForm(forms.Form):
